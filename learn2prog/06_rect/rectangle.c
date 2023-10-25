@@ -1,85 +1,84 @@
 #include <stdio.h>
 #include <stdlib.h>
-//I've provided "min" and "max" functions in
-//case they are useful to you
+
+// Help function
 int min (int a, int b) {
-  if (a < b) {
-    return a;
-  }
-  return b;
-}
-int max (int a, int b) {
-  if (a > b) {
-    return a;
-  }
-  return b;
+  return (a < b? a: b);
 }
 
-//Declare your rectangle structure here!
-typedef struct{
+int max(int a, int b) {
+  return (a > b? a: b);
+}
+
+// Rectangle struct
+typedef struct {
   int x;
   int y;
   int width;
   int height;
 } rectangle;
 
-
+// Canonicalize rectangle
 rectangle canonicalize(rectangle r) {
-  //WRITE THIS FUNCTION
-  if (r.width < 0)
-    {
-      r.x = r.x + r.width;
-      r.width = -r.width;
-    }
-  if (r.height < 0)
-    {
-      r.y += r.height;
-      r.height = -r.height;
-    }
+  if (r.width < 0) {
+    r.x += r.width;
+    r.width = -r.width;
+  }
+  if (r.height < 0) {
+    r.y += r.height;
+    r.height = -r.height;
+  }
   return r;
 }
+
 rectangle intersection(rectangle r1, rectangle r2) {
-  //WRITE THIS FUNCTION
+  // Canonicalize
   r1 = canonicalize(r1);
   r2 = canonicalize(r2);
+
+  // Helper numbers
   int r1_xm = r1.x + r1.width;
-  int r1_ym = r1.y + r1.height;
   int r2_xm = r2.x + r2.width;
+  int r1_ym = r1.y + r1.height;
   int r2_ym = r2.y + r2.height;
-  int sum_width = r1.width + r2.width;
-  int sum_height = r1.height + r2.height;
+  int sum_2_width = r1.width + r2.width;
+  int sum_2_height = r1.height + r2.height;
   int max_xm = max(r1_xm, r2_xm);
   int max_ym = max(r1_ym, r2_ym);
+  int min_x = min(r1.x, r2.x);
+  int max_x = max(r1.x, r2.x);
+  int min_y = min(r1.y, r2.y);
+  int max_y = max(r1.y, r2.y);
+  int distance_x = max_xm - min_x;
+  int distance_y = max_ym - min_y;
   rectangle new_r;
-  
-  if ((sum_width < max_xm - min(r1.x, r2.x)) || (sum_height < max_ym - min(r1.y, r2.y)) || ((sum_width == max_xm - min(r1.x, r2.x)) && (sum_height == max_ym - min(r1.y, r2.y))))
-    {
-      new_r.width = 0;
-      new_r.height = 0;
-    }
-  else
-    {
-      new_r.width = sum_width - max_xm + min(r1.x, r2.x);
-      new_r.height = sum_height - max_ym + min(r1.y, r2.y);
-      new_r.x = max(r1.x, r2.x);
-      new_r.y = max(r1.y, r2.y);
-    }
+
+  // Conditions
+  // 1 - No overlap: (1) seperated; (2) corner touch corner
+  if (((sum_2_width < max_xm - min_x) || (sum_2_height < max_ym - min_y)) ||\
+      ((sum_2_width == max_xm - min_x) && (sum_2_height == max_ym - min_y))) {
+    new_r.width = 0;
+    new_r.height = 0;
+  }else {
+    new_r.x = max_x;
+    new_r.y = max_y;
+    new_r.width = sum_2_width - distance_x;
+    new_r.height = sum_2_height - distance_y;
+  }
   return new_r;
 }
 
-//You should not need to modify any code below this line
+// No need to modify code below
 void printRectangle(rectangle r) {
   r = canonicalize(r);
   if (r.width == 0 && r.height == 0) {
     printf("<empty>\n");
-  }
-  else {
-    printf("(%d,%d) to (%d,%d)\n", r.x, r.y, 
-	                           r.x + r.width, r.y + r.height);
+  }else {
+    printf("(%d,%d) to (%d,%d)\n", r.x, r.y, r.x + r.width, r.y + r.height);
   }
 }
 
-int main (void) {
+int main(void) {
   rectangle r1;
   rectangle r2;
   rectangle r3;
@@ -98,7 +97,7 @@ int main (void) {
   r2.height = -7;
   printf("r2 is ");
   printRectangle(r2);
-  
+
   r3.x = -2;
   r3.y = 7;
   r3.width = 7;
@@ -113,7 +112,7 @@ int main (void) {
   printf("r4 is ");
   printRectangle(r4);
 
-  //test everything with r1
+  // Test everything with r1
   rectangle i = intersection(r1,r1);
   printf("intersection(r1,r1): ");
   printRectangle(i);
@@ -130,7 +129,7 @@ int main (void) {
   printf("intersection(r1,r4): ");
   printRectangle(i);
 
-  //test everything with r2
+  // Test everything with r2
   i = intersection(r2,r1);
   printf("intersection(r2,r1): ");
   printRectangle(i);
@@ -181,7 +180,5 @@ int main (void) {
   printf("intersection(r4,r4): ");
   printRectangle(i);
 
-
   return EXIT_SUCCESS;
-
 }

@@ -19,17 +19,15 @@ int printTriangle(int size) {
     return starCount;
 }
 
-
-int notMain(int num) {
-    int numStars;
-    printf("Here is a reiangle with height %d\n", num);
-    numStars = printTriangle(num);
-    printf("That triangle had %d total stars\n", numStars);
-}
-
-
 int main(void) {
-    notMain(4);
-    notMain(7);
+    int numStars;
+    int m = 4;
+    int n = 7;
+    printf("Here is a reiangle with height %d\n", m);
+    numStars = printTriangle(m);
+    printf("That triangle had %d total stars\n", numStars);
+    printf("Here is a reiangle with height %d\n", n);
+    numStars = printTriangle(n);
+    printf("That triangle had %d total stars\n", numStars);
     return 0;
 }
