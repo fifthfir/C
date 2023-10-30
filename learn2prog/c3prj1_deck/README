@@ -84,7 +84,7 @@ First, you will write four functions in deck.c:
    which are not in any player's hand).
 
  - void shuffle(deck_t * d);
-   This function takes in a deck an shuffles
+   This function takes in a deck and shuffles
    it, randomly permuting the order of the cards.
    There are MANY valid ways to shuffle a deck
    of cards---we'll leave the specifics
