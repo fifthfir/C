@@ -22,16 +22,20 @@ is not given, you should use 10,000 as a default value.
      and initialize all its values to 0.
 
    - Do each Monte Carlo trial (repeat num_trials times)
+   -
         - Shuffle the deck of remaining cards
           (you wrote shuffle in Course 3)
+
         - Assign unknown cards from the shuffled deck
           (you just wrote future_cards_from_deck)
+
         - Use compare_hands (from Course 3) to
           figure out which hand won. Note that
           with potentially more than 2 hands,
           this is much like finding the max of
           an array, but using compare_hands
           instead of >.
+
         - Increment the win count for the winning
           hand (or for the "ties" element of the array
           if there was a tie).
