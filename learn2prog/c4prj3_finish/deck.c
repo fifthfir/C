@@ -21,14 +21,19 @@ int deck_contains(deck_t * d, card_t c) {
 }
 
 void shuffle(deck_t * d){
-  card_t temp;
-  int times = rand() % 10 + 1;
-  for ( int i = 0; i < times; i++ ){
-    size_t c1 = rand() % d->n_cards;
-    size_t c2 = rand() % d->n_cards;
-    temp = *d->cards[c1];
-    *d->cards[c1] = *d->cards[c2];
-    *d->cards[c2] = temp;
+  size_t max_rand=d->n_cards;
+  card_t swap_card;
+  size_t num;
+  size_t num2;
+  for (size_t i=0; i<max_rand; i++){
+    num=rand()%max_rand;
+    num2=rand()%max_rand;
+    swap_card.value=d->cards[num]->value;
+    swap_card.suit=d->cards[num]->suit;
+    d->cards[num]->value=d->cards[num2]->value;
+    d->cards[num]->suit=d->cards[num2]->suit;
+    d->cards[num2]->value=swap_card.value;
+    d->cards[num2]->suit=swap_card.suit;
   }
 }
 
